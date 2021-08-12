@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "gRPCBasico.Protos";
+
+package personpkg;
+
+service Person{
+	rpc GetPersonById (PersonRequest) returns (PersonResponse);
+	rpc GetPersonByLastName (PersonByLastNameRequest) returns (PersonResponse);
+}
+
+message PersonRequest{
+	int32 BusinessEntityID = 1;
+}
+
+message PersonResponse{
+	int32 BusinessEntityID = 1;
+	string FirstName = 2;
+	string LastName = 3;
+}
+
+message PersonByLastNameRequest{
+	string LastName = 1;
+}
+
