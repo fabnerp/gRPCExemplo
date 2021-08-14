@@ -48,28 +48,23 @@ namespace gRPCBasico.Data.Repository
                                 response.LastName = reader["LastName"].ToString();
                             }
                         }
-
                         cnn.Close();
-
                     }
-
                 }
-
                 return response;
             }
             catch (Exception)
             {
                 throw;
             }
-
-
         }
 
-        public PersonResponse GetPersonByLastname(string lastName)
+
+        public IEnumerable<PersonResponse> GetPersonByLastname(string lastName)
         {
             try
             {
-                PersonResponse response = new PersonResponse();
+                List<PersonResponse> responses = new List<PersonResponse>();
 
                 using (var cnn = new SqlServerConnection(_configuration).GetConnection())
                 {
@@ -90,26 +85,23 @@ namespace gRPCBasico.Data.Repository
                         {
                             while (reader.Read())
                             {
-                                response.BusinessEntityID = Convert.ToInt32(reader["BusinessEntityID"]);
-                                response.FirstName = reader["FirstName"].ToString();
-                                response.LastName = reader["LastName"].ToString();
+                                responses.Add(new PersonResponse()
+                                {
+                                    BusinessEntityID = Convert.ToInt32(reader["BusinessEntityID"]),
+                                    FirstName = reader["FirstName"].ToString(),
+                                    LastName = reader["LastName"].ToString()
+                                });
                             }
                         }
-
                         cnn.Close();
-
                     }
-
                 }
-
-                return response;
+                return responses;
             }
             catch (Exception)
             {
                 throw;
             }
-
-
         }
     }
 }

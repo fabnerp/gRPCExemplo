@@ -6,7 +6,8 @@ package personpkg;
 
 service Person{
 	rpc GetPersonById (PersonRequest) returns (PersonResponse);
-	rpc GetPersonByLastName (PersonByLastNameRequest) returns (PersonResponse);
+	rpc GetPersonByIdAsync (PersonRequest) returns (PersonResponse);
+	rpc GetPersonByLastNameAsync (stream PersonByLastNameRequest) returns (stream PersonResponse);
 }
 
 message PersonRequest{

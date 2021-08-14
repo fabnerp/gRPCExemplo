@@ -1,10 +1,12 @@
 ﻿using gRPCBasico.Protos;
+using System.Collections.Generic;
 
 namespace gRPCBasico.Data.Repository
 {
     public interface IPersonRepository
     {
         PersonResponse GetPersonById(int businessEntityID);
-        PersonResponse GetPersonByLastname(string lastName);
+        IEnumerable<PersonResponse> GetPersonByLastname(string lastName);
+        
     }
 }
