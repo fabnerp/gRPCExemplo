@@ -1,5 +1,5 @@
-﻿using gRPCBasico.Data.Repository;
-using gRPCBasico.Services;
+﻿using gRPCServiceBasic.Data.Repository;
+using gRPCServiceBasic.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace gRPCBasico
+namespace gRPCServiceBasic
 {
     public class Startup
     {

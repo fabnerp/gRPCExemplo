@@ -1,7 +1,7 @@
-﻿using gRPCBasico.Protos;
+﻿using gRPCServiceBasic.Protos;
 using System.Collections.Generic;
 
-namespace gRPCBasico.Data.Repository
+namespace gRPCServiceBasic.Data.Repository
 {
     public interface IPersonRepository
     {

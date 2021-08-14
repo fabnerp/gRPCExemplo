@@ -1,5 +1,5 @@
-﻿using gRPCBasico.Data.Connection;
-using gRPCBasico.Protos;
+﻿using gRPCServiceBasic.Data.Connection;
+using gRPCServiceBasic.Protos;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace gRPCBasico.Data.Repository
+namespace gRPCServiceBasic.Data.Repository
 {
     public class PersonRepository : IPersonRepository
     {

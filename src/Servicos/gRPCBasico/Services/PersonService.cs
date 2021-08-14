@@ -1,13 +1,13 @@
 ﻿using Grpc.Core;
-using gRPCBasico.Data.Repository;
-using gRPCBasico.Protos;
+using gRPCServiceBasic.Data.Repository;
+using gRPCServiceBasic.Protos;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace gRPCBasico.Services
+namespace gRPCServiceBasic.Services
 {
     
 

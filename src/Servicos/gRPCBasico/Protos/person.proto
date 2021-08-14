@@ -1,12 +1,15 @@
 syntax = "proto3";
 
-option csharp_namespace = "gRPCBasico.Protos";
+option csharp_namespace = "gRPCServiceBasic.Protos";
 
 package personpkg;
 
 service Person{
+	//Unary service
 	rpc GetPersonById (PersonRequest) returns (PersonResponse);
+	//Unary service async
 	rpc GetPersonByIdAsync (PersonRequest) returns (PersonResponse);
+	//Bi-Directional service
 	rpc GetPersonByLastNameAsync (stream PersonByLastNameRequest) returns (stream PersonResponse);
 }
 
