@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "gRPCServiceBasic.Protos";
+option csharp_namespace = "gRPCClientBasic.Protos";
 
 package personpkg;
 
@@ -8,7 +8,7 @@ service Person{
 	//Unary service
 	rpc GetPersonById (PersonRequest) returns (PersonResponse);
 	//Unary service async
-	rpc GetPersonByIdAsync (PersonRequest) returns (PersonResponse);
+	rpc GetPersonByIdAsync (PersonRequestAsync) returns (PersonResponseAsync);
 	//Bi-Directional service
 	rpc GetPersonByLastNameAsync (stream PersonByLastNameRequest) returns (stream PersonResponse);
 }
@@ -17,7 +17,17 @@ message PersonRequest{
 	int32 BusinessEntityID = 1;
 }
 
+message PersonRequestAsync{
+	int32 BusinessEntityID = 1;
+}
+
 message PersonResponse{
+	int32 BusinessEntityID = 1;
+	string FirstName = 2;
+	string LastName = 3;
+}
+
+message PersonResponseAsync{
 	int32 BusinessEntityID = 1;
 	string FirstName = 2;
 	string LastName = 3;

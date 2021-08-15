@@ -29,11 +29,18 @@ namespace gRPCServiceBasic.Services
             return Task.FromResult(response);
         }
 
-        public override async Task<PersonResponse> GetPersonByIdAsync(PersonRequest request, ServerCallContext context)
+        public override async Task<PersonResponseAsync> GetPersonByIdAsync(PersonRequestAsync request, ServerCallContext context)
         {
             var response = _personRepository.GetPersonById(request.BusinessEntityID);
 
-            return await Task.FromResult(response);
+            PersonResponseAsync person = new PersonResponseAsync
+            {
+                BusinessEntityID = response.BusinessEntityID,
+                FirstName = response.FirstName,
+                LastName = response.LastName
+            };
+
+            return await Task.FromResult(person);
         }
 
         public override async Task GetPersonByLastNameAsync(IAsyncStreamReader<PersonByLastNameRequest> requestStream, IServerStreamWriter<PersonResponse> responseStream, ServerCallContext context)
