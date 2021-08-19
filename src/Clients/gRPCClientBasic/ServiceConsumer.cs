@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static gRPCProtos.Person;
 
+
 namespace gRPCClientBasic
 {
     public class ServiceConsumer : IServiceConsumer
@@ -20,7 +21,10 @@ namespace gRPCClientBasic
         public ServiceConsumer(IConfiguration configuration)
         {
             _configuration = configuration;
-            _channel = GrpcChannel.ForAddress(_configuration.GetSection("urlServiceHTTPS").Value);
+            var urlChannel = _configuration.GetSection("HTTPSConfig").Get<HTTPSConfig>().Url;
+
+            _channel = GrpcChannel.ForAddress(urlChannel);
+
             _client = new PersonClient(_channel);
         }
 
@@ -35,7 +39,7 @@ namespace gRPCClientBasic
             Console.WriteLine($"Person result: Id:{response.BusinessEntityID}, FirstName:{response.FirstName}, LastName:{response.LastName}");
         }
 
-        public async void GetUserByIdAsync(int id)
+        public async Task GetUserByIdAsync(int id)
         {
             var response = await _client.GetPersonByIdAsync(
                  new PersonRequest
@@ -45,9 +49,9 @@ namespace gRPCClientBasic
 
             Console.WriteLine($"Person result: Id:{response.BusinessEntityID}, FirstName:{response.FirstName}, LastName:{response.LastName}");
         }
-          
 
-        public async void GetPeople()
+
+        public async Task GetPeople()
         {
             using var stream = _client.GetPersonByLastNameAsync();
 
