@@ -24,7 +24,7 @@ namespace gRPCServiceBasic.Data.Repository
 
                 using (var cnn = new SqlServerConnection(_configuration).GetConnection())
                 {
-                    string sql = "Select BusinessEntityID, FirstName, LastName from Users where BusinessEntityID=@BusinessEntityID";
+                    string sql = "Select BusinessEntityID, FirstName, LastName from Person.Person where BusinessEntityID=@BusinessEntityID";
 
                     using (var cmd = new SqlCommand())
                     {
@@ -58,7 +58,7 @@ namespace gRPCServiceBasic.Data.Repository
         }
 
 
-        public IEnumerable<PersonResponse> GetPersonByLastname(string lastName)
+        public IEnumerable<PersonResponse> GetPeopleByLastname(string lastName)
         {
             try
             {
@@ -66,16 +66,18 @@ namespace gRPCServiceBasic.Data.Repository
 
                 using (var cnn = new SqlServerConnection(_configuration).GetConnection())
                 {
-                    string sql = "Select BusinessEntityID, FirstName, LastName from Users where LastName like '%@LastName%'";
+                    string sql = "Select BusinessEntityID, FirstName, LastName from Person.Person where LastName like '%@lastName%'";
 
                     using (var cmd = new SqlCommand())
                     {
+                        sql = sql.Replace("@lastName", lastName);
+
                         cmd.CommandText = sql;
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandTimeout = 200;
                         cmd.Connection = cnn;
 
-                        cmd.Parameters.Add(new SqlParameter("@LastName", lastName));
+                        //cmd.Parameters.Add(new SqlParameter("@LastName", lastName));
 
                         cnn.Open();
 
@@ -101,5 +103,7 @@ namespace gRPCServiceBasic.Data.Repository
                 throw;
             }
         }
+
+
     }
 }

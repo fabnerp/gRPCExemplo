@@ -40,9 +40,9 @@ namespace gRPCServiceBasic.Services
             return await Task.FromResult(person);
         }
 
-        public override async Task GetPersonByLastNameAsync(
-            IAsyncStreamReader<PersonByLastNameRequestStream> requestStream,
-            IServerStreamWriter<PersonByLastNameResponseStream> responseStream,
+        public override async Task GetPeopleByLastNameAsync(
+            IAsyncStreamReader<PeopleByLastNameRequestStream> requestStream,
+            IServerStreamWriter<PeopleByLastNameResponseStream> responseStream,
             ServerCallContext context)
         {
             if (requestStream == null)
@@ -59,12 +59,12 @@ namespace gRPCServiceBasic.Services
                 {
                     if (requestStream.Current.LastName.Length > 0)
                     {
-                        var response = _personRepository.GetPersonByLastname(requestStream.Current.LastName);
+                        var response = _personRepository.GetPeopleByLastname(requestStream.Current.LastName);
 
                         foreach (var item in response)
                         {
                             await responseStream.WriteAsync(
-                                new PersonByLastNameResponseStream
+                                new PeopleByLastNameResponseStream
                                 {
                                     BusinessEntityID = item.BusinessEntityID,
                                     FirstName = item.FirstName,
@@ -78,6 +78,34 @@ namespace gRPCServiceBasic.Services
             {
                 throw;
             }
+        }
+
+        public override async Task GetPeopleLastNameStreamResponseAsync(PeopleLastNameResquest request, IServerStreamWriter<PeopleByLastNameResponseStream> responseStream, ServerCallContext context)
+        {
+            try
+            {
+                if (request.LastName.Length > 0)
+                {
+                    var response = _personRepository.GetPeopleByLastname(request.LastName);
+
+                    foreach (var item in response)
+                    {
+                        await responseStream.WriteAsync(
+                            new PeopleByLastNameResponseStream
+                            {
+                                BusinessEntityID = item.BusinessEntityID,
+                                FirstName = item.FirstName,
+                                LastName = item.LastName
+                            });
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+
         }
     }
 }

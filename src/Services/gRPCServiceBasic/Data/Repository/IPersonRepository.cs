@@ -5,8 +5,7 @@ namespace gRPCServiceBasic.Data.Repository
 {
     public interface IPersonRepository
     {
+        IEnumerable<PersonResponse> GetPeopleByLastname(string lastName);
         PersonResponse GetPersonById(int businessEntityID);
-        IEnumerable<PersonResponse> GetPersonByLastname(string lastName);
-        
     }
 }
