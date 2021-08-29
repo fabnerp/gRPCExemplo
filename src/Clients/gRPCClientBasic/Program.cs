@@ -15,11 +15,12 @@ namespace gRPCClientBasic
             var serviceConsumer = ActivatorUtilities.CreateInstance<ServiceConsumer>(host.Services);
 
             //call gRPC Service
-            //serviceConsumer.GetUserById(6534); OK
+            serviceConsumer.GetUserById(6534); //OK
             //call async Service
-            //await serviceConsumer.GetUserByIdAsync(6534); OK
+            await serviceConsumer.GetUserByIdAsync(6534); //OK
             //call async Service
-            //await serviceConsumer.GetPeople();
+            
+            //call bidirectional service
 
             serviceConsumer.CloseClient();
 

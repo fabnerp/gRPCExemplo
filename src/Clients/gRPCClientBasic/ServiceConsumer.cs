@@ -53,9 +53,7 @@ namespace gRPCClientBasic
         {
             try
             {
-                var callOptions = new CallOptions()
-               .WithCancellationToken(CancellationToken.None);
-
+                var callOptions = new CallOptions().WithCancellationToken(CancellationToken.None);
                 using var resp = _client.GetPeopleLastNameStreamResponseAsync(new PeopleLastNameResquest { LastName = "bai" }, callOptions);
 
                 try
@@ -67,7 +65,6 @@ namespace gRPCClientBasic
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
             }
@@ -77,42 +74,54 @@ namespace gRPCClientBasic
             }
         }
 
+        public async Task GetPeopleByLastNameBiDirect(string lastName)
+        {
+            try
+            {
+                //preparing respose async
+                using var response = _client.GetPeopleByLastNameAsync();
+
+                var respProc = Task.Run(async () =>
+                {
+                    try
+                    {
+                        await foreach (var item in response.ResponseStream.ReadAllAsync())
+                        {
+                            Console.WriteLine($"Person result: Id:{item.BusinessEntityID}, FirstName:{item.FirstName}, LastName:{item.LastName}");
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                });
+
+                //preparing request
+
+                foreach (var item in new[] { "bai", "lee" })
+                {
+                    await response.RequestStream.WriteAsync(
+                        new PeopleByLastNameRequestStream
+                        {
+                            LastName = item
+                        });
+                }
+
+                await response.RequestStream.CompleteAsync();
+
+                await respProc;
 
 
-        //public async Task GetPeople()
-        //{
-        //    try
-        //    {
-        //        using var stream = _client.GetPersonByLastNameAsync();
+            }
+            catch (Exception)
+            {
 
-        //        ////input requests
-        //        //await stream.RequestStream.WriteAsync(new PersonByLastNameRequestStream { LastName = "lee" });
-        //        ////await stream.RequestStream.WriteAsync(new PersonByLastNameRequestStream { LastName = "gar" });
-        //        ////await stream.RequestStream.WriteAsync(new PersonByLastNameRequestStream { LastName = "bai" });
+                throw;
+            }
 
-        //        var response = Task.Run(async () =>
-        //        {
-        //            _ = stream.RequestStream.WriteAsync(new PersonByLastNameRequestStream { LastName = "bai" });
-
-        //            while (await stream.ResponseStream.MoveNext(cancellationToken: System.Threading.CancellationToken.None))
-        //            {
-        //                Console.WriteLine($"mensagem atual:{stream.ResponseStream.Current}");
-        //                Console.WriteLine($"Person result: " +
-        //                    $"Id:{stream.ResponseStream.Current.BusinessEntityID}, " +
-        //                    $"FirstName:{stream.ResponseStream.Current.FirstName}, " +
-        //                    $"LastName:{stream.ResponseStream.Current.LastName}");
-        //            }
+        }
 
 
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Erro: ");
-        //    }
-
-
-        //}
 
         public void CloseClient()
         {
